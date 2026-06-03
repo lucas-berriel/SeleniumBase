@@ -4117,6 +4117,7 @@ class BaseCase(unittest.TestCase):
         page_load_strategy=None,
         use_wire=None,
         external_pdf=None,
+        downloads_folder=None,
         is_mobile=None,
         d_width=None,
         d_height=None,
@@ -4179,6 +4180,7 @@ class BaseCase(unittest.TestCase):
         page_load_strategy - the option to change pageLoadStrategy (Chrome)
         use_wire - Use selenium-wire webdriver instead of the selenium one
         external_pdf - "plugins.always_open_pdf_externally": True. (Chrome)
+        downloads_folder - the browser's downloads folder. (A path)
         is_mobile - the option to use the mobile emulator (Chrome-only)
         d_width - the device width of the mobile emulator (Chrome-only)
         d_height - the device height of the mobile emulator (Chrome-only)
@@ -4332,6 +4334,8 @@ class BaseCase(unittest.TestCase):
             use_wire = kwargs["wire"]
         if external_pdf is None:
             external_pdf = self.external_pdf
+        if downloads_folder is None:
+            downloads_folder = self.downloads_folder
         test_id = self.__get_test_id()
         if cap_file is None:
             cap_file = self.cap_file
@@ -4410,6 +4414,7 @@ class BaseCase(unittest.TestCase):
             page_load_strategy=page_load_strategy,
             use_wire=use_wire,
             external_pdf=external_pdf,
+            downloads_folder=downloads_folder,
             test_id=test_id,
             mobile_emulator=is_mobile,
             device_width=d_width,
@@ -7901,6 +7906,8 @@ class BaseCase(unittest.TestCase):
             any clicks that download files will also use this folder
             rather than using the browser's default "downloads/" path."""
         self.__check_scope()
+        if getattr(self, "downloads_folder", None):
+            return os.path.abspath(self.downloads_folder)
         return download_helper.get_downloads_folder()
 
     def get_browser_downloads_folder(self):
@@ -7928,6 +7935,8 @@ class BaseCase(unittest.TestCase):
             and self.headless
         ):
             return os.path.abspath(".")
+        elif getattr(self, "downloads_folder", None):
+            return os.path.abspath(self.downloads_folder)
         else:
             return download_helper.get_downloads_folder()
         return os.path.join(os.path.expanduser("~"), "downloads")
@@ -15555,6 +15564,7 @@ class BaseCase(unittest.TestCase):
             self.page_load_strategy = sb_config.page_load_strategy
             self.use_wire = sb_config.use_wire
             self.external_pdf = sb_config.external_pdf
+            self.downloads_folder = sb_config.downloads_folder
             self._final_debug = sb_config.final_debug
             self.window_position = sb_config.window_position
             self.window_size = sb_config.window_size
@@ -15939,6 +15949,7 @@ class BaseCase(unittest.TestCase):
                 page_load_strategy=self.page_load_strategy,
                 use_wire=self.use_wire,
                 external_pdf=self.external_pdf,
+                downloads_folder=self.downloads_folder,
                 is_mobile=self.mobile_emulator,
                 d_width=self.__device_width,
                 d_height=self.__device_height,

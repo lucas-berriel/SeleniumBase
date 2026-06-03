@@ -3079,6 +3079,7 @@ def get_driver(
     device_height=None,
     device_pixel_ratio=None,
     browser=None,  # A duplicate of browser_name to avoid confusion
+    downloads_folder=None,  # Override the default downloads folder. (A path)
 ):
     sb_config._ext_dirs = []
     driver_dir = DRIVER_DIR
@@ -3558,6 +3559,7 @@ def get_driver(
             device_width,
             device_height,
             device_pixel_ratio,
+            downloads_folder=downloads_folder,
         )
     else:
         return get_local_driver(
@@ -3616,6 +3618,7 @@ def get_driver(
             device_width,
             device_height,
             device_pixel_ratio,
+            downloads_folder=downloads_folder,
         )
 
 
@@ -3680,6 +3683,7 @@ def get_remote_driver(
     device_width,
     device_height,
     device_pixel_ratio,
+    downloads_folder=None,
 ):
     if use_wire:
         pip_find_lock = fasteners.InterProcessLock(
@@ -3734,7 +3738,12 @@ def get_remote_driver(
             address += "wd/hub"
         else:
             address += "/wd/hub"
-    downloads_path = DOWNLOADS_FOLDER
+    if downloads_folder:
+        downloads_path = os.path.abspath(downloads_folder)
+        if not os.path.exists(downloads_path):
+            os.makedirs(downloads_path, exist_ok=True)
+    else:
+        downloads_path = DOWNLOADS_FOLDER
     desired_caps = {}
     extra_caps = {}
     if cap_file:
@@ -4117,10 +4126,16 @@ def get_local_driver(
     device_width,
     device_height,
     device_pixel_ratio,
+    downloads_folder=None,
 ):
     """Spins up a new web browser and returns the driver.
     Can also be used to spin up additional browsers for the same test."""
-    downloads_path = DOWNLOADS_FOLDER
+    if downloads_folder:
+        downloads_path = os.path.abspath(downloads_folder)
+        if not os.path.exists(downloads_path):
+            os.makedirs(downloads_path, exist_ok=True)
+    else:
+        downloads_path = DOWNLOADS_FOLDER
     driver_dir = DRIVER_DIR
     special_chrome = False
     if binary_location:

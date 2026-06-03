@@ -84,6 +84,7 @@ def SB(
     wait_for_angularjs=None,  # Wait for AngularJS to load after some actions.
     use_wire=None,  # Use selenium-wire's webdriver over selenium webdriver.
     external_pdf=None,  # Set Chrome "plugins.always_open_pdf_externally":True.
+    downloads_folder=None,  # Set the browser's downloads folder. (A path)
     window_position=None,  # Set the browser's starting window position: "X,Y"
     window_size=None,  # Set the browser's starting window size: "Width,Height"
     is_mobile=None,  # Use the mobile device emulator while running tests.
@@ -210,6 +211,7 @@ def SB(
     wait_for_angularjs (bool):  Wait for AngularJS to load after some actions.
     use_wire (bool):  Use selenium-wire's webdriver over selenium webdriver.
     external_pdf (bool):  Set Chrome "plugins.always_open_pdf_externally":True.
+    downloads_folder (str):  Set the browser's downloads folder. (A path)
     window_position (x,y):  Set the browser's starting window position: "X,Y"
     window_size (w,h):  Set the browser's starting window size: "Width,Height"
     is_mobile (bool):  Use the mobile device emulator while running tests.
@@ -1228,6 +1230,7 @@ def SB(
     sb_config.do_not_track = do_not_track
     sb_config.use_wire = use_wire
     sb_config.external_pdf = external_pdf
+    sb_config.downloads_folder = downloads_folder
     sb_config.remote_debug = remote_debug
     sb_config.settings_file = settings_file
     sb_config.user_data_dir = user_data_dir
@@ -1339,6 +1342,7 @@ def SB(
     sb.do_not_track = sb_config.do_not_track
     sb.use_wire = sb_config.use_wire
     sb.external_pdf = sb_config.external_pdf
+    sb.downloads_folder = sb_config.downloads_folder
     sb.remote_debug = sb_config.remote_debug
     sb.settings_file = sb_config.settings_file
     sb.user_data_dir = sb_config.user_data_dir

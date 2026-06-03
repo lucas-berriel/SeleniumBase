@@ -118,6 +118,7 @@ def Driver(
     page_load_strategy=None,  # Set Chrome PLS to "normal", "eager", or "none".
     use_wire=None,  # Use selenium-wire's webdriver over selenium webdriver.
     external_pdf=None,  # Set Chrome "plugins.always_open_pdf_externally":True.
+    downloads_folder=None,  # Set the browser's downloads folder. (A path)
     window_position=None,  # Set the browser's starting window position: "X,Y"
     window_size=None,  # Set the browser's starting window size: "Width,Height"
     is_mobile=None,  # Use the mobile device emulator while running tests.
@@ -216,6 +217,7 @@ def Driver(
     page_load_strategy (str):  Set Chrome PLS to "normal", "eager", or "none".
     use_wire (bool):  Use selenium-wire's webdriver over selenium webdriver.
     external_pdf (bool):  Set Chrome "plugins.always_open_pdf_externally":True
+    downloads_folder (str):  Set the browser's downloads folder. (A path)
     window_position (x,y):  Set the browser's starting window position: "X,Y"
     window_size (w,h):  Set the browser's starting window size: "Width,Height"
     is_mobile (bool):  Use the mobile device emulator while running tests.
@@ -1021,6 +1023,7 @@ def Driver(
         page_load_strategy=page_load_strategy,
         use_wire=use_wire,
         external_pdf=external_pdf,
+        downloads_folder=downloads_folder,
         test_id=test_id,
         mobile_emulator=is_mobile,
         device_width=d_width,

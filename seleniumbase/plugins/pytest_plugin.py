@@ -1405,6 +1405,16 @@ def pytest_addoption(parser):
                 instead of being displayed in the browser window.""",
     )
     parser.addoption(
+        "--downloads_folder",
+        "--downloads-folder",
+        action="store",
+        dest="downloads_folder",
+        default=None,
+        help="""Set the browser's downloads folder. (A path)
+                Files downloaded by the browser go to this folder,
+                instead of the default "downloaded_files" folder.""",
+    )
+    parser.addoption(
         "--timeout_multiplier",
         "--timeout-multiplier",
         action="store",
@@ -1899,6 +1909,7 @@ def pytest_configure(config):
     sb_config.visual_baseline = config.getoption("visual_baseline")
     sb_config.use_wire = config.getoption("use_wire")
     sb_config.external_pdf = config.getoption("external_pdf")
+    sb_config.downloads_folder = config.getoption("downloads_folder")
     sb_config.timeout_multiplier = config.getoption("timeout_multiplier")
     sb_config.list_fp = config.getoption("fail_page")
     sb_config._is_timeout_changed = False

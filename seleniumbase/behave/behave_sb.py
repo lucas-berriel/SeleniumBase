@@ -234,6 +234,7 @@ def get_configured_sb(context):
     sb.block_images = False
     sb.do_not_track = False
     sb.external_pdf = False
+    sb.downloads_folder = None
     sb.remote_debug = False
     sb.settings_file = None
     sb.user_data_dir = None
@@ -787,6 +788,13 @@ def get_configured_sb(context):
             if user_data_dir == "true":
                 user_data_dir = sb.user_data_dir  # revert to default
             sb.user_data_dir = user_data_dir
+            continue
+        # Handle: -D downloads-folder=DIR / downloads_folder=DIR
+        if low_key in ["downloads-folder", "downloads_folder"]:
+            downloads_folder = userdata[key]
+            if downloads_folder == "true":
+                downloads_folder = sb.downloads_folder  # revert to default
+            sb.downloads_folder = downloads_folder
             continue
         # Handle: -D chromium-arg="ARG=N,ARG2" / chromium_arg="ARG=N,ARG2"
         if low_key in ["chromium-arg", "chromium_arg"]:
